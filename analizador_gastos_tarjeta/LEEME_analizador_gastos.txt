@@ -1,0 +1,94 @@
+ANALIZADOR DE GASTOS DE TARJETA
+================================
+
+1. REQUISITOS
+-------------
+- Windows, macOS o Linux
+- Python 3.10 o posterior
+
+Para comprobar que Python está instalado:
+    python --version
+
+Instale la única dependencia:
+    python -m pip install openpyxl
+
+
+2. FORMATO DEL ARCHIVO TXT
+--------------------------
+Debe haber una compra por línea:
+
+25/05/2026 WOMPI*TEXACO AHUACHAPAN AHUACHAPAN $29.00
+31/05/2026 PEDIDOSYA RESTAURANTES -I SAN SALVADOR $12.28
+
+Formato esperado:
+DD/MM/AAAA DESCRIPCIÓN $MONTO
+
+
+3. USO CON VENTANA
+------------------
+Haga doble clic en analizador_gastos_tarjeta.py.
+
+Si Windows no lo abre:
+- Clic derecho
+- Abrir con
+- Python
+
+El programa pedirá:
+1. El archivo TXT
+2. El Excel de salida
+
+Puede seleccionar el mismo historial_gastos.xlsx cada mes.
+Las transacciones que ya existen no se duplicarán.
+
+
+4. USO DESDE CONSOLA
+--------------------
+En la carpeta del programa:
+
+    python analizador_gastos_tarjeta.py compras_ejemplo.txt
+
+Para indicar otro archivo de salida:
+
+    python analizador_gastos_tarjeta.py compras_ejemplo.txt -o mis_gastos.xlsx
+
+Para reemplazar el historial en lugar de agregar:
+
+    python analizador_gastos_tarjeta.py compras_ejemplo.txt -o mis_gastos.xlsx --reemplazar
+
+
+5. HOJAS GENERADAS
+------------------
+- Dashboard
+- Movimientos
+- Resumen comercios
+- Resumen mensual
+- Resumen categorías
+- Líneas no reconocidas, cuando alguna línea no tiene el formato esperado
+
+
+6. PERSONALIZACIÓN
+------------------
+Dentro del archivo Python puede ampliar:
+- LOCATIONS: ciudades o municipios
+- GROUP_RULES: reglas para unir variantes de un comercio
+- CATEGORY_RULES: categorías automáticas
+
+Ejemplo:
+Si "TEXACO SUCURSAL 1" y "TEXACO SUCURSAL 2" contienen la palabra TEXACO,
+ambas se agrupan como TEXACO.
+
+
+7. RECOMENDACIÓN
+----------------
+Conserve un solo archivo llamado historial_gastos.xlsx y agregue cada nuevo
+estado de cuenta a ese archivo. El dashboard y todos los resúmenes se
+reconstruyen automáticamente.
+
+
+8. NOTA SOBRE COMPRAS IDÉNTICAS
+-------------------------------
+El programa conserva compras idénticas repetidas dentro del mismo TXT.
+Como los estados de cuenta no incluyen un número único de transacción en el
+formato proporcionado, dos compras exactamente iguales que aparezcan en
+archivos distintos pueden interpretarse como la misma operación. En ese caso,
+revise la hoja Movimientos o agregue una referencia única al formato del TXT.
